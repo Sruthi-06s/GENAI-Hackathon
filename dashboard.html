@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Crop Doctor Dashboard 🌾</title>
+
+<style>
+
+/* 🌿 Page Background */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #e8f5e9, #ffffff);
+}
+
+/* 🌾 Main Container */
+.dashboard-container {
+    text-align: center;
+    margin-top: 80px;
+}
+
+/* Title */
+h1 {
+    font-size: 42px;
+    color: #2e7d32;
+    margin-bottom: 10px;
+}
+
+/* Subtitle */
+.dashboard-container p {
+    font-size: 18px;
+    color: #555;
+}
+
+/* Card Layout */
+.card-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 50px;
+    flex-wrap: wrap;
+}
+
+/* 🌟 Card Style */
+.card {
+    width: 300px;
+    padding: 35px 25px;
+    border-radius: 18px;
+    background: white;
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Hover Effect */
+.card:hover {
+    transform: translateY(-12px) scale(1.03);
+    background: #e8f5e9;
+}
+
+/* Card Title */
+.card h2 {
+    color: #1b5e20;
+    margin-bottom: 12px;
+}
+
+/* Card Text */
+.card p {
+    color: #555;
+    font-size: 15px;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="dashboard-container">
+
+    <h1>🌾 AI Farmer Helper</h1>
+    <p>Select a service</p>
+
+    <div class="card-container">
+
+        <!-- Disease Detector -->
+        <div class="card" onclick="goDetector()">
+            <h2>🌾 Disease Detector</h2>
+            <p>Upload crop leaf image and detect disease</p>
+        </div>
+
+        <!-- Query Resolver -->
+        <div class="card" onclick="goResolver()">
+            <h2>❓ Query Resolver</h2>
+            <p>Ask farming questions using AI</p>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function goDetector() {
+    window.location.href = "index.html";
+}
+
+function goResolver() {
+    window.location.href = "resolver.html";
+}
+</script>
+
+</body>
+</html>

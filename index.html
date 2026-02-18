@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Disease Detector 🌾</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet"
+     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <i class="fas fa-leaf header-icon"></i>
+        <h1>Crop Disease Detector</h1>
+    </div>
+
+    <!-- Upload Box -->
+    <div class="upload-section">
+        <div class="file-input-wrapper">
+
+            <input type="file" id="imageInput" accept="image/*">
+
+            <div class="file-input-placeholder" id="placeholder">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span id="fileName">Choose an image</span>
+            </div>
+
+            <div class="image-preview" id="imagePreview">
+                <img id="previewImg" src="#" alt="Preview">
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Language -->
+    <div class="language-section">
+        <label for="language">
+            <i class="fas fa-globe"></i> Select Language
+        </label>
+
+        <select id="language">
+            <option value="en">🇬🇧 English</option>
+            <option value="hi">🇮🇳 हिंदी</option>
+            <option value="te">🇮🇳 తెలుగు</option>
+        </select>
+    </div>
+
+    <!-- Detect Button -->
+    <button onclick="uploadImage()" id="detectBtn">
+        <i class="fas fa-search"></i>
+        Detect Disease
+    </button>
+
+    <div id="result" class="result-box"></div>
+    <div id="status" class="status"></div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

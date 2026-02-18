@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>🌾 Voice Farmer Assistant</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: linear-gradient(135deg,#2e7d32,#81c784);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+    color:white;
+}
+
+.box {
+    background:white;
+    color:black;
+    padding:40px;
+    border-radius:15px;
+    width:400px;
+    text-align:center;
+}
+
+button {
+    padding:15px 25px;
+    font-size:18px;
+    background:#2e7d32;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>🎤 Speak Your Farming Question</h2>
+
+<button onclick="startListening()">Start Speaking</button>
+
+<p id="text"></p>
+<p id="reply"></p>
+
+</div>
+
+<script>
+
+function startListening(){
+
+    const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = "en-IN";
+    recognition.start();
+
+    document.getElementById("text").innerText = "Listening...";
+
+    recognition.onresult = async function(e){
+
+        const question = e.results[0][0].transcript;
+        document.getElementById("text").innerText = "You: " + question;
+
+        const response = await fetch("http://127.0.0.1:5000/query",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({question:question})
+        });
+
+        const data = await response.json();
+
+        document.getElementById("reply").innerText = "AI: " + data.answer;
+
+        // Play audio
+        const audio = new Audio("http://127.0.0.1:5000/audio/" + data.audio);
+        audio.play();
+    };
+}
+
+</script>
+
+</body>
+</html>
