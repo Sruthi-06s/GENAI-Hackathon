@@ -3,34 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Crop Doctor Dashboard 🌾</title>
+<title>AI Crop Doctor Dashboard</title>
 
 <style>
 
-/* 🌿 Page Background */
+/* 🌾 Bright Crop Background */
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #e8f5e9, #ffffff);
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: 
+        linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)),
+        url("https://images.unsplash.com/photo-1500382017468-9049fed747ef")
+        no-repeat center center/cover;
 }
 
-/* 🌾 Main Container */
+/* 🌿 Main Container */
 .dashboard-container {
     text-align: center;
-    margin-top: 80px;
+    padding: 50px 40px;
+    width: 100%;
 }
 
 /* Title */
 h1 {
-    font-size: 42px;
-    color: #2e7d32;
+    font-size: 48px;
+    color: #1b5e20;
     margin-bottom: 10px;
 }
 
-/* Subtitle */
 .dashboard-container p {
     font-size: 18px;
-    color: #555;
+    color: #2e7d32;
 }
 
 /* Card Layout */
@@ -38,31 +46,31 @@ h1 {
     display: flex;
     justify-content: center;
     gap: 40px;
-    margin-top: 50px;
+    margin-top: 60px;
     flex-wrap: wrap;
 }
 
-/* 🌟 Card Style */
+/* 🌟 Card Design */
 .card {
-    width: 300px;
-    padding: 35px 25px;
-    border-radius: 18px;
+    width: 320px;
+    padding: 40px 30px;
+    border-radius: 20px;
     background: white;
-    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
-/* Hover Effect */
 .card:hover {
-    transform: translateY(-12px) scale(1.03);
-    background: #e8f5e9;
+    transform: translateY(-10px);
+    box-shadow: 0 20px 45px rgba(0,0,0,0.25);
 }
 
 /* Card Title */
 .card h2 {
     color: #1b5e20;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
+    font-size: 22px;
 }
 
 /* Card Text */
@@ -71,25 +79,29 @@ h1 {
     font-size: 15px;
 }
 
-</style>
+/* Responsive */
+@media (max-width: 768px) {
+    h1 { font-size: 36px; }
+    .card { width: 90%; }
+}
 
+</style>
 </head>
+
 <body>
 
 <div class="dashboard-container">
 
-    <h1>🌾 AI Farmer Helper</h1>
+    <h1>🌾 Rythu Mithra</h1>
     <p>Select a service</p>
 
     <div class="card-container">
 
-        <!-- Disease Detector -->
         <div class="card" onclick="goDetector()">
-            <h2>🌾 Disease Detector</h2>
+            <h2>🌿 Disease Detector</h2>
             <p>Upload crop leaf image and detect disease</p>
         </div>
 
-        <!-- Query Resolver -->
         <div class="card" onclick="goResolver()">
             <h2>❓ Query Resolver</h2>
             <p>Ask farming questions using AI</p>
@@ -111,3 +123,4 @@ function goResolver() {
 
 </body>
 </html>
+
