@@ -1,90 +1,1251 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>🌾 Voice Farmer Assistant</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌾 రైతు సహాయకుడు - AI Voice Farmer Assistant</title>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<style>
-body {
-    font-family: Arial;
-    background: linear-gradient(135deg,#2e7d32,#81c784);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    margin:0;
-    color:white;
-}
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(145deg, #1a472a 0%, #2e7d32 50%, #4caf50 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
 
-.box {
-    background:white;
-    color:black;
-    padding:40px;
-    border-radius:15px;
-    width:400px;
-    text-align:center;
-}
+        /* Animated Background Elements */
+        .floating-leaf {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.1);
+            font-size: 2rem;
+            animation: float 8s infinite ease-in-out;
+            pointer-events: none;
+        }
 
-button {
-    padding:15px 25px;
-    font-size:18px;
-    background:#2e7d32;
-    color:white;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-}
-</style>
+        .leaf-1 {
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .leaf-2 {
+            bottom: 15%;
+            right: 8%;
+            animation-delay: 2s;
+            font-size: 3rem;
+        }
+
+        .leaf-3 {
+            top: 30%;
+            right: 15%;
+            animation-delay: 4s;
+            transform: rotate(45deg);
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 900px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header h1 {
+            font-size: 3.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .header h1 i {
+            font-size: 3rem;
+            color: #ffd700;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        /* Main Card */
+        .assistant-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 40px;
+            padding: 40px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(255, 255, 255, 0.1) inset;
+            animation: scaleIn 0.6s ease-out;
+            transform-origin: center;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Language Selector */
+        .language-section {
+            margin-bottom: 30px;
+        }
+
+        .language-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #1a472a;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .language-label i {
+            font-size: 1.3rem;
+            color: #2e7d32;
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .lang-option {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            font-weight: 500;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .lang-option:hover {
+            border-color: #2e7d32;
+            background: #f1f8e9;
+            transform: translateY(-2px);
+        }
+
+        .lang-option.active {
+            background: #2e7d32;
+            border-color: #2e7d32;
+            color: white;
+            box-shadow: 0 10px 20px rgba(46, 125, 50, 0.3);
+        }
+
+        /* Voice Button Section */
+        .voice-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .voice-btn-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .voice-btn {
+            width: 140px;
+            height: 140px;
+            background: linear-gradient(145deg, #2e7d32, #1a472a);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 3.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 0 4px rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .voice-btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(145deg, #1a472a, #2e7d32);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .voice-btn:active {
+            transform: scale(0.95);
+        }
+
+        .voice-btn.listening {
+            animation: pulse 1.5s infinite;
+            background: linear-gradient(145deg, #c62828, #b71c1c);
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(198, 40, 40, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 30px rgba(198, 40, 40, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(198, 40, 40, 0);
+            }
+        }
+
+        .voice-hint {
+            margin-top: 15px;
+            color: #1a472a;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .voice-hint i {
+            color: #2e7d32;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* Wave Animation for Listening */
+        .wave-animation {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin: 20px 0;
+            height: 50px;
+        }
+
+        .wave {
+            width: 8px;
+            height: 100%;
+            background: #2e7d32;
+            border-radius: 10px;
+            animation: wave 1s ease-in-out infinite;
+        }
+
+        .wave:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+        .wave:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+        .wave:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+        .wave:nth-child(5) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes wave {
+            0%, 100% {
+                transform: scaleY(0.3);
+            }
+            50% {
+                transform: scaleY(1);
+            }
+        }
+
+        /* Chat Container */
+        .chat-container {
+            background: #f5f5f5;
+            border-radius: 30px;
+            padding: 20px;
+            margin: 30px 0;
+            max-height: 400px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+
+        .chat-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-container::-webkit-scrollbar-track {
+            background: #e0e0e0;
+            border-radius: 10px;
+        }
+
+        .chat-container::-webkit-scrollbar-thumb {
+            background: #2e7d32;
+            border-radius: 10px;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-message {
+            align-items: flex-end;
+        }
+
+        .bot-message {
+            align-items: flex-start;
+        }
+
+        .message-bubble {
+            max-width: 80%;
+            padding: 12px 18px;
+            border-radius: 20px;
+            position: relative;
+            animation: messageSlide 0.3s ease;
+            font-size: 1rem;
+            line-height: 1.5;
+            white-space: pre-line;
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .user-message .message-bubble {
+            background: #2e7d32;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .bot-message .message-bubble {
+            background: white;
+            color: #333;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            margin-top: 4px;
+            color: #999;
+            padding: 0 5px;
+        }
+
+        /* Quick Questions */
+        .quick-questions {
+            margin-top: 25px;
+        }
+
+        .quick-questions p {
+            color: #1a472a;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quick-questions p i {
+            font-size: 1.2rem;
+        }
+
+        .question-chips {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            padding: 12px 20px;
+            background: #e8f5e9;
+            border: 2px solid #c8e6c9;
+            border-radius: 50px;
+            color: #1a472a;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1 1 auto;
+            min-width: 180px;
+            border: none;
+        }
+
+        .chip:hover {
+            background: #2e7d32;
+            border-color: #2e7d32;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+        }
+
+        .chip i {
+            font-size: 1.1rem;
+        }
+
+        /* Status Indicator */
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            padding: 12px;
+            background: #f1f8e9;
+            border-radius: 50px;
+            color: #1a472a;
+            font-weight: 500;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: #4caf50;
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            display: flex;
+            gap: 5px;
+            padding: 12px 18px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            width: fit-content;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #2e7d32;
+            border-radius: 50%;
+            animation: typingBounce 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+        .typing-dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes typingBounce {
+            0%, 80%, 100% {
+                transform: scale(0);
+            }
+            40% {
+                transform: scale(1);
+            }
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            color: white;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .footer i {
+            color: #ff6b6b;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+
+        .voice-status {
+            font-size: 0.9rem;
+            margin-top: 5px;
+            color: #666;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .assistant-card {
+                padding: 25px;
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .voice-btn {
+                width: 120px;
+                height: 120px;
+                font-size: 3rem;
+            }
+
+            .language-selector {
+                flex-direction: column;
+            }
+
+            .lang-option {
+                width: 100%;
+            }
+
+            .chip {
+                min-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .question-chips {
+                flex-direction: column;
+            }
+
+            .chip {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="box">
+    <!-- Floating Leaves Animation -->
+    <i class="fas fa-leaf floating-leaf leaf-1"></i>
+    <i class="fas fa-seedling floating-leaf leaf-2"></i>
+    <i class="fas fa-tree floating-leaf leaf-3"></i>
 
-<h2>🎤 Speak Your Farming Question</h2>
+    <div class="main-container">
+        
+        <!-- Header -->
+        <div class="header">
+            <h1>
+                <i class="fas fa-microphone-alt"></i>
+                <span id="headerTitle">రైతు సహాయకుడు</span>
+                <i class="fas fa-robot"></i>
+            </h1>
+            <p id="headerSubtitle">AI Voice Farmer Assistant | ఏదైనా ప్రశ్న అడగండి</p>
+        </div>
 
-<button onclick="startListening()">Start Speaking</button>
+        <!-- Main Card -->
+        <div class="assistant-card">
 
-<p id="text"></p>
-<p id="reply"></p>
+            <!-- Language Selection -->
+            <div class="language-section">
+                <div class="language-label">
+                    <i class="fas fa-language"></i>
+                    <span id="languageLabel">మీ భాషను ఎంచుకోండి / Select Language</span>
+                </div>
+                <div class="language-selector">
+                    <button class="lang-option active" onclick="setLanguage('te', this)">
+                        <i class="fas fa-flag-india"></i> తెలుగు
+                    </button>
+                    <button class="lang-option" onclick="setLanguage('en', this)">
+                        <i class="fas fa-flag-usa"></i> English
+                    </button>
+                    <button class="lang-option" onclick="setLanguage('hi', this)">
+                        <i class="fas fa-flag-india"></i> हिन्दी
+                    </button>
+                </div>
+                <div class="voice-status" id="voiceStatus"></div>
+            </div>
 
-</div>
+            <!-- Voice Button Section -->
+            <div class="voice-section">
+                <div class="voice-btn-container">
+                    <button class="voice-btn" id="voiceBtn" onclick="toggleListening()">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                </div>
+                <div class="voice-hint">
+                    <i class="fas fa-mouse-pointer"></i>
+                    <span id="voiceHint">మైక్ పై క్లిక్ చేసి ఏదైనా ప్రశ్న అడగండి</span>
+                </div>
+            </div>
 
-<script>
+            <!-- Wave Animation (Visible when listening) -->
+            <div class="wave-animation hidden" id="waveAnimation">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
 
-function startListening(){
+            <!-- Chat Container -->
+            <div class="chat-container" id="chatContainer">
+                <div class="message bot-message">
+                    <div class="message-bubble" id="welcomeMessage">
+                        🌾 నమస్కారం! నేను AI వ్యవసాయ సహాయకుడిని. 
+                        వ్యవసాయానికి సంబంధించి ఏదైనా ప్రశ్న అడగండి:
+                        • వ్యాధులు మరియు వాటి నియంత్రణ
+                        • ఎరువుల వివరాలు
+                        • పంట కోత సమయం
+                        • చీడపీడల నివారణ
+                        • వాతావరణ సమాచారం
+                        • మరియు ఇంకా...
+                    </div>
+                    <div class="message-time">ఇప్పుడే</div>
+                </div>
+            </div>
 
-    const SpeechRecognition =
-        window.SpeechRecognition || window.webkitSpeechRecognition;
+            <!-- Typing Indicator (Hidden by default) -->
+            <div class="typing-indicator hidden" id="typingIndicator">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
 
-    const recognition = new SpeechRecognition();
-    recognition.lang = "en-IN";
-    recognition.start();
+            <!-- Quick Questions - Dynamic based on language -->
+            <div class="quick-questions">
+                <p><i class="fas fa-lightbulb"></i> <span id="quickQuestionsTitle">తరచుగా అడిగే ప్రశ్నలు:</span></p>
+                <div class="question-chips" id="questionChips">
+                    <!-- Chips will be populated dynamically by JavaScript -->
+                </div>
+            </div>
 
-    document.getElementById("text").innerText = "Listening...";
+            <!-- Status Indicator -->
+            <div class="status-indicator">
+                <span class="status-dot"></span>
+                <span id="statusText">AI అసిస్టెంట్ సిద్ధంగా ఉంది</span>
+                <i class="fas fa-check-circle" style="color: #4caf50;"></i>
+            </div>
 
-    recognition.onresult = async function(e){
+            <!-- Audio Control Buttons -->
+            <div class="text-center mt-20" style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
+                <button id="stopAudioBtn" class="chip" onclick="stopAllAudio()" style="background: #f44336; color: white; border: none;">
+                    <i class="fas fa-stop"></i> <span id="stopAudioText">ఆడియో ఆపండి</span>
+                </button>
+            </div>
+        </div>
 
-        const question = e.results[0][0].transcript;
-        document.getElementById("text").innerText = "You: " + question;
+        <!-- Footer -->
+        <div class="footer">
+            <p id="footerText">రైతుల కోసం <i class="fas fa-heart"></i> | AI సహాయకుడు - ఏదైనా ప్రశ్న అడగండి</p>
+        </div>
+    </div>
 
-        const response = await fetch("http://127.0.0.1:5000/query",{
-            method:"POST",
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify({question:question})
+    <script>
+        let currentLanguage = 'te';
+        let isListening = false;
+        let recognition = null;
+        let currentUtterance = null;
+        let voices = [];
+
+        // FAQ Questions in different languages
+        const faqQuestions = {
+            'te': [
+                { icon: 'fa-leaf', text: 'వరిలో బాక్టీరియల్ లీఫ్ బ్లైట్ నియంత్రణ ఎలా?', question: 'వరిలో బాక్టీరియల్ లీఫ్ బ్లైట్ నియంత్రణ ఎలా?' },
+                { icon: 'fa-flask', text: 'వరికి ఎరువులు ఎలా వేయాలి?', question: 'వరికి ఎరువులు ఎలా వేయాలి?' },
+                { icon: 'fa-calendar', text: 'వరి కోత సమయం ఎప్పుడు?', question: 'వరి కోత సమయం ఎప్పుడు?' },
+                { icon: 'fa-cloud-sun', text: 'నేటి వాతావరణం ఎలా ఉంది?', question: 'నేటి వాతావరణం ఎలా ఉంది?' },
+                { icon: 'fa-bug', text: 'చీడపీడల నియంత్రణ ఎలా?', question: 'చీడపీడల నియంత్రణ ఎలా?' },
+                { icon: 'fa-tint', text: 'నీటి నిర్వహణ ఎలా చేయాలి?', question: 'నీటి నిర్వహణ ఎలా చేయాలి?' }
+            ],
+            'en': [
+                { icon: 'fa-leaf', text: 'How to control Bacterial Leaf Blight?', question: 'How to control Bacterial Leaf Blight in rice?' },
+                { icon: 'fa-flask', text: 'How to apply fertilizers?', question: 'How to apply fertilizers for rice?' },
+                { icon: 'fa-calendar', text: 'When to harvest rice?', question: 'When is the right time to harvest rice?' },
+                { icon: 'fa-cloud-sun', text: 'How is the weather today?', question: 'How is the weather today for farming?' },
+                { icon: 'fa-bug', text: 'How to control pests?', question: 'How to control pests in rice?' },
+                { icon: 'fa-tint', text: 'How to manage water?', question: 'How to manage water in rice fields?' }
+            ],
+            'hi': [
+                { icon: 'fa-leaf', text: 'बैक्टीरियल लीफ ब्लाइट कैसे नियंत्रित करें?', question: 'धान में बैक्टीरियल लीफ ब्लाइट का नियंत्रण कैसे करें?' },
+                { icon: 'fa-flask', text: 'उर्वरक कैसे डालें?', question: 'धान में उर्वरक कैसे डालें?' },
+                { icon: 'fa-calendar', text: 'धान की कटाई कब करें?', question: 'धान की कटाई का सही समय क्या है?' },
+                { icon: 'fa-cloud-sun', text: 'आज मौसम कैसा है?', question: 'आज खेती के लिए मौसम कैसा है?' },
+                { icon: 'fa-bug', text: 'कीटों का नियंत्रण कैसे करें?', question: 'धान में कीटों का नियंत्रण कैसे करें?' },
+                { icon: 'fa-tint', text: 'पानी का प्रबंधन कैसे करें?', question: 'धान के खेत में पानी का प्रबंधन कैसे करें?' }
+            ]
+        };
+
+        // Extensive farming knowledge base in multiple languages
+        const farmingKnowledge = {
+            'te': {
+                // Disease related
+                'disease': 'వ్యాధి నియంత్రణ కోసం నిరోధక రకాలు వాడండి, సకాలంలో మందులు పిచికారీ చేయండి, పంట మార్పిడి పాటించండి.',
+                'bacterial': 'బాక్టీరియల్ వ్యాధులకు కాపర్ ఆక్సీక్లోరైడ్ 0.3% పిచికారీ చేయండి. నత్రజని ఎరువులు అధికంగా వేయవద్దు.',
+                'fungal': 'శిలీంధ్ర వ్యాధులకు మ్యాంకోజెబ్ 2.5 గ్రా/లీ పిచికారీ చేయండి. విత్తన శుద్ధి తప్పనిసరి.',
+                
+                // Fertilizer related
+                'fertilizer': 'వరికి హెక్టారుకు యూరియా 210 కిలోలు, సూపర్ ఫాస్ఫేట్ 315 కిలోలు, పొటాష్ 85 కిలోలు వేయాలి. యూరియా మూడు విడతల్లో వేయండి.',
+                'urea': 'యూరియా మూడు విడతల్లో వేయండి: నాట్లు వేసిన 15, 35, 50 రోజులకు. ఒక్కోసారి 70 కిలోలు చొప్పున.',
+                'organic': 'సేంద్రియ ఎరువులకు పశువుల ఎరువు 10-12 టన్నులు, వర్మీకంపోస్ట్ 5 టన్నులు హెక్టారుకు వేయండి.',
+                
+                // Harvest related
+                'harvest': 'వరి కోతకు 80-85% గింజలు పసుపు రంగులోకి మారాలి. పూత వచ్చిన 30-35 రోజులకు కోతకు సిద్ధంగా ఉంటుంది.',
+                'when to harvest': 'గింజల తేమ శాతం 20-25% ఉన్నప్పుడు కోతకు సరైన సమయం. కోత ఆలస్యం చేస్తే దిగుబడి తగ్గుతుంది.',
+                
+                // Weather related
+                'weather': 'వరికి 25-35°C ఉష్ణోగ్రత అనుకూలం. ఎక్కువ వర్షాలు వ్యాధులకు కారణమవుతాయి. తక్కువ వర్షాలు దిగుబడి తగ్గిస్తాయి.',
+                'rain': 'వరికి సంవత్సరానికి 1000-1500 మి.మీ వర్షపాతం అవసరం. వర్షాకాలంలో నీటి ఎద్దడి రాకుండా చూసుకోవాలి.',
+                
+                // Pest related
+                'pest': 'చీడపీడల నియంత్రణకు సమీకృత పద్ధతులు పాటించండి. నిరోధక రకాలు, సమతుల్య ఎరువులు, అవసరమైనప్పుడు మాత్రమే మందులు వాడండి.',
+                'insect': 'తొడిము కుళ్ళు, చిమ్మట, తెల్లదోమ ప్రధాన తెగుళ్ళు. వీటి నియంత్రణకు సరైన సమయంలో మందులు వాడండి.',
+                
+                // Water related
+                'water': 'వరికి నీటి నిర్వహణ చాలా ముఖ్యం. నాట్లు వేసిన తర్వాత 5-7 సెం.మీ నీరు నిలవ ఉంచాలి. కోతకు 15 రోజుల ముందు నీరు తొలగించాలి.',
+                
+                // Soil related
+                'soil': 'వరికి ఒండ్రు మట్టి, బంకమట్టి మంచివి. నేల pH 5.5-6.5 ఉండాలి. సేంద్రియ పదార్థం ఎక్కువగా ఉండే నేలలు మంచివి.',
+                
+                // Seed related
+                'seed': 'శుద్ధి చేసిన, ప్రమాణీకరించిన విత్తనాలు వాడండి. హెక్టారుకు 40-50 కిలోల విత్తనాలు సరిపోతాయి.',
+                
+                // Price related
+                'price': 'ధరల సమాచారానికి స్థానిక మార్కెట్ యార్డ్, రైతు బజార్లను సంప్రదించండి. ప్రభుత్వ MSP ధరలు తెలుసుకోండి.'
+            },
+            'en': {
+                'disease': 'For disease control, use resistant varieties, timely spraying of pesticides, and practice crop rotation.',
+                'bacterial': 'For bacterial diseases, spray Copper Oxychloride 0.3%. Avoid excess nitrogen fertilizers.',
+                'fungal': 'For fungal diseases, spray Mancozeb 2.5 g/litre. Seed treatment is mandatory.',
+                
+                'fertilizer': 'For rice, apply Urea 210 kg, Super Phosphate 315 kg, Potash 85 kg per hectare. Apply Urea in three splits.',
+                'urea': 'Apply Urea in three splits: 15, 35, and 50 days after transplanting. 70 kg each time.',
+                'organic': 'For organic farming, apply Farm Yard Manure 10-12 tons, Vermicompost 5 tons per hectare.',
+                
+                'harvest': 'Harvest when 80-85% grains turn yellow. Ready 30-35 days after flowering.',
+                'when to harvest': 'Right time to harvest when moisture content is 20-25%. Delay reduces yield.',
+                
+                'weather': 'Rice requires 25-35°C temperature. Excess rain causes diseases, low rain reduces yield.',
+                'rain': 'Rice needs 1000-1500 mm annual rainfall. Ensure no water stress during rainy season.',
+                
+                'pest': 'Use integrated pest management: resistant varieties, balanced fertilizers, need-based pesticides.',
+                'insect': 'Major pests: Stem borer, Leaf folder, Brown plant hopper. Apply pesticides at right time.',
+                
+                'water': 'Maintain 5-7 cm water after transplanting. Remove water 15 days before harvest.',
+                'soil': 'Rice grows well in loamy and clay soils. Soil pH should be 5.5-6.5.',
+                'seed': 'Use certified seeds. 40-50 kg seeds per hectare is sufficient.',
+                'price': 'For price information, contact local market yard or Rythu Bazaars. Check government MSP rates.'
+            },
+            'hi': {
+                'disease': 'रोग नियंत्रण के लिए प्रतिरोधी किस्मों का उपयोग करें, समय पर कीटनाशकों का छिड़काव करें, और फसल चक्र अपनाएं।',
+                'bacterial': 'जीवाणु रोगों के लिए कॉपर ऑक्सीक्लोराइड 0.3% का छिड़काव करें। नाइट्रोजन उर्वरकों का अधिक प्रयोग न करें।',
+                'fungal': 'फफूंद रोगों के लिए मैन्कोजेब 2.5 ग्राम/लीटर का छिड़काव करें। बीज उपचार अनिवार्य है।',
+                
+                'fertilizer': 'धान के लिए प्रति हेक्टेयर यूरिया 210 किग्रा, सुपर फॉस्फेट 315 किग्रा, पोटाश 85 किग्रा डालें। यूरिया तीन बार में डालें।',
+                'urea': 'यूरिया तीन बार में डालें: रोपाई के 15, 35 और 50 दिन बाद। हर बार 70 किग्रा।',
+                'organic': 'जैविक खेती के लिए गोबर की खाद 10-12 टन, वर्मीकम्पोस्ट 5 टन प्रति हेक्टेयर डालें।',
+                
+                'harvest': 'कटाई तब करें जब 80-85% दाने पीले हो जाएं। फूल आने के 30-35 दिन बाद तैयार।',
+                'when to harvest': 'सही समय जब नमी 20-25% हो। देरी से उपज कम होती है।',
+                
+                'weather': 'धान के लिए 25-35°C तापमान चाहिए। अधिक बारिश से रोग, कम बारिश से उपज कम।',
+                'rain': 'धान को 1000-1500 मिमी वार्षिक वर्षा चाहिए। बरसात में पानी की कमी न होने दें।',
+                
+                'pest': 'एकीकृत कीट प्रबंधन अपनाएं: प्रतिरोधी किस्में, संतुलित उर्वरक, आवश्यकतानुसार कीटनाशक।',
+                'insect': 'मुख्य कीट: तना छेदक, पत्ती लपेटक, भूरा फुदका। सही समय पर कीटनाशक डालें।',
+                
+                'water': 'रोपाई के बाद 5-7 सेमी पानी रखें। कटाई से 15 दिन पहले पानी निकाल दें।',
+                'soil': 'धान दोमट और चिकनी मिट्टी में अच्छा होता है। मिट्टी का pH 5.5-6.5 होना चाहिए।',
+                'seed': 'प्रमाणित बीजों का उपयोग करें। 40-50 किग्रा बीज प्रति हेक्टेयर पर्याप्त है।',
+                'price': 'मूल्य जानकारी के लिए स्थानीय मंडी या किसान बाजार से संपर्क करें। सरकारी MSP दरें देखें।'
+            }
+        };
+
+        // UI Text in different languages
+        const uiText = {
+            'te': {
+                headerTitle: 'రైతు సహాయకుడు',
+                headerSubtitle: 'AI వాయిస్ అసిస్టెంట్ - ఏదైనా ప్రశ్న అడగండి',
+                languageLabel: 'మీ భాషను ఎంచుకోండి',
+                voiceHint: 'మైక్ పై క్లిక్ చేసి ఏదైనా ప్రశ్న అడగండి',
+                quickQuestionsTitle: 'తరచుగా అడిగే ప్రశ్నలు:',
+                statusText: 'AI అసిస్టెంట్ సిద్ధంగా ఉంది',
+                stopAudioText: 'ఆడియో ఆపండి',
+                footerText: 'రైతుల కోసం ❤️ | AI సహాయకుడు - ఏదైనా ప్రశ్న అడగండి',
+                listening: 'వింటున్నాను... మీ ప్రశ్న అడగండి',
+                welcome: 'నమస్కారం! నేను AI వ్యవసాయ సహాయకుడిని. వ్యవసాయానికి సంబంధించి ఏదైనా ప్రశ్న అడగండి.'
+            },
+            'en': {
+                headerTitle: 'Farmer Assistant',
+                headerSubtitle: 'AI Voice Assistant - Ask Any Question',
+                languageLabel: 'Select Your Language',
+                voiceHint: 'Click the mic and ask any question',
+                quickQuestionsTitle: 'Frequently Asked Questions:',
+                statusText: 'AI Assistant Ready',
+                stopAudioText: 'Stop Audio',
+                footerText: 'Made with ❤️ for Farmers | AI Assistant - Ask Anything',
+                listening: 'Listening... Ask your question',
+                welcome: 'Hello! I am an AI farming assistant. Ask me anything about agriculture: diseases, fertilizers, harvest time, pests, weather, and more.'
+            },
+            'hi': {
+                headerTitle: 'किसान सहायक',
+                headerSubtitle: 'AI वॉइस असिस्टेंट - कोई भी प्रश्न पूछें',
+                languageLabel: 'अपनी भाषा चुनें',
+                voiceHint: 'माइक पर क्लिक करें और कोई भी प्रश्न पूछें',
+                quickQuestionsTitle: 'अक्सर पूछे जाने वाले प्रश्न:',
+                statusText: 'AI असिस्टेंट तैयार है',
+                stopAudioText: 'ऑडियो बंद करें',
+                footerText: 'किसानों के लिए ❤️ से | AI सहायक - कुछ भी पूछें',
+                listening: 'सुन रहा हूं... अपना प्रश्न पूछें',
+                welcome: 'नमस्ते! मैं AI कृषि सहायक हूं। कृषि के बारे में कुछ भी पूछें: रोग, उर्वरक, कटाई समय, कीट, मौसम और अधिक।'
+            }
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadVoices();
+            setLanguage('te', document.querySelector('.lang-option.active'));
         });
 
-        const data = await response.json();
+        // Load available voices
+        function loadVoices() {
+            if ('speechSynthesis' in window) {
+                voices = speechSynthesis.getVoices();
+                if (voices.length === 0) {
+                    speechSynthesis.onvoiceschanged = function() {
+                        voices = speechSynthesis.getVoices();
+                    };
+                }
+            }
+        }
 
-        document.getElementById("reply").innerText = "AI: " + data.answer;
+        // Set Language
+        function setLanguage(lang, element) {
+            currentLanguage = lang;
+            
+            document.querySelectorAll('.lang-option').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            element.classList.add('active');
+            
+            // Update all UI text
+            updateUIText(lang);
+            
+            // Update FAQ chips
+            updateFAQChips(lang);
+            
+            // Update welcome message
+            document.getElementById('welcomeMessage').textContent = uiText[lang].welcome;
+            
+            // Speak welcome message
+            setTimeout(() => {
+                speakText(uiText[lang].welcome, lang);
+            }, 500);
+        }
 
-        // Play audio
-        const audio = new Audio("http://127.0.0.1:5000/audio/" + data.audio);
-        audio.play();
-    };
-}
+        function updateUIText(lang) {
+            document.getElementById('headerTitle').textContent = uiText[lang].headerTitle;
+            document.getElementById('headerSubtitle').textContent = uiText[lang].headerSubtitle;
+            document.getElementById('languageLabel').textContent = uiText[lang].languageLabel;
+            document.getElementById('voiceHint').textContent = uiText[lang].voiceHint;
+            document.getElementById('quickQuestionsTitle').textContent = uiText[lang].quickQuestionsTitle;
+            document.getElementById('statusText').textContent = uiText[lang].statusText;
+            document.getElementById('stopAudioText').textContent = uiText[lang].stopAudioText;
+            document.getElementById('footerText').innerHTML = uiText[lang].footerText;
+        }
 
-</script>
+        function updateFAQChips(lang) {
+            const chipsContainer = document.getElementById('questionChips');
+            chipsContainer.innerHTML = ''; // Clear existing chips
+            
+            const questions = faqQuestions[lang];
+            
+            questions.forEach(q => {
+                const chip = document.createElement('button');
+                chip.className = 'chip';
+                chip.onclick = function() { askQuestion(q.question); };
+                
+                const icon = document.createElement('i');
+                icon.className = `fas ${q.icon}`;
+                
+                const text = document.createTextNode(' ' + q.text);
+                
+                chip.appendChild(icon);
+                chip.appendChild(text);
+                
+                chipsContainer.appendChild(chip);
+            });
+        }
 
+        // Toggle Listening
+        function toggleListening() {
+            if (!isListening) {
+                startListening();
+            } else {
+                stopListening();
+            }
+        }
+
+        // Start Listening
+        async function startListening() {
+            const voiceBtn = document.getElementById('voiceBtn');
+            const waveAnimation = document.getElementById('waveAnimation');
+            
+            try {
+                if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                    showError('speech_not_supported');
+                    return;
+                }
+
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                
+                const langMap = {
+                    'te': 'te-IN',
+                    'en': 'en-IN',
+                    'hi': 'hi-IN'
+                };
+                recognition.lang = langMap[currentLanguage];
+                recognition.continuous = false;
+                recognition.interimResults = false;
+
+                recognition.start();
+                isListening = true;
+                
+                voiceBtn.classList.add('listening');
+                waveAnimation.classList.remove('hidden');
+                voiceBtn.innerHTML = '<i class="fas fa-stop"></i>';
+                
+                addMessage('bot', '🎤 ' + uiText[currentLanguage].listening);
+
+                recognition.onresult = async function(e) {
+                    const question = e.results[0][0].transcript;
+                    stopListening();
+                    
+                    addMessage('user', question);
+                    
+                    document.getElementById('typingIndicator').classList.remove('hidden');
+                    
+                    setTimeout(() => {
+                        const answer = getAIResponse(question, currentLanguage);
+                        document.getElementById('typingIndicator').classList.add('hidden');
+                        addMessage('bot', answer);
+                        speakText(answer, currentLanguage);
+                    }, 1500);
+                };
+
+                recognition.onerror = function(e) {
+                    console.error('Speech error:', e);
+                    stopListening();
+                    showError('could_not_hear');
+                };
+
+                recognition.onend = function() {
+                    stopListening();
+                };
+
+            } catch (error) {
+                console.error('Error:', error);
+                stopListening();
+                showError('general_error');
+            }
+        }
+
+        function showError(type) {
+            const errors = {
+                'te': {
+                    'speech_not_supported': 'స్పీచ్ రికగ్నిషన్ మద్దతు లేదు. దయచేసి Chrome బ్రౌజర్ ఉపయోగించండి.',
+                    'could_not_hear': 'స్పష్టంగా వినిపించలేదు. మళ్ళీ ప్రయత్నించండి.',
+                    'general_error': 'లోపం. దయచేసి మళ్ళీ ప్రయత్నించండి.'
+                },
+                'en': {
+                    'speech_not_supported': 'Speech recognition not supported. Please use Chrome browser.',
+                    'could_not_hear': 'Could not hear clearly. Please try again.',
+                    'general_error': 'Error. Please try again.'
+                },
+                'hi': {
+                    'speech_not_supported': 'स्पीच रिकग्निशन समर्थित नहीं है। कृपया Chrome ब्राउज़र का उपयोग करें।',
+                    'could_not_hear': 'स्पष्ट नहीं सुनाई दिया। कृपया पुनः प्रयास करें।',
+                    'general_error': 'त्रुटि। कृपया पुनः प्रयास करें।'
+                }
+            };
+            
+            addMessage('bot', '❌ ' + errors[currentLanguage][type]);
+        }
+
+        // Stop Listening
+        function stopListening() {
+            if (recognition) {
+                try {
+                    recognition.stop();
+                } catch (e) {}
+            }
+            
+            isListening = false;
+            
+            const voiceBtn = document.getElementById('voiceBtn');
+            const waveAnimation = document.getElementById('waveAnimation');
+            
+            voiceBtn.classList.remove('listening');
+            waveAnimation.classList.add('hidden');
+            voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+        }
+
+        // Ask Question from Chip
+        async function askQuestion(question) {
+            addMessage('user', question);
+            
+            document.getElementById('typingIndicator').classList.remove('hidden');
+            
+            setTimeout(() => {
+                const answer = getAIResponse(question, currentLanguage);
+                document.getElementById('typingIndicator').classList.add('hidden');
+                addMessage('bot', answer);
+                speakText(answer, currentLanguage);
+            }, 1000);
+        }
+
+        // Get AI Response for ANY question
+        function getAIResponse(question, lang) {
+            question = question.toLowerCase();
+            const kb = farmingKnowledge[lang];
+            
+            // Check for keywords and return relevant information
+            if (question.includes('బాక్టీరియల్') || question.includes('bacterial') || question.includes('बैक्टीरियल') || 
+                (question.includes('leaf') && question.includes('blight'))) {
+                return kb['bacterial'];
+            }
+            else if (question.includes('fungal') || question.includes('శిలీంధ్ర') || question.includes('फफूंद')) {
+                return kb['fungal'];
+            }
+            else if (question.includes('ఎరువు') || question.includes('fertilizer') || question.includes('उर्वरक')) {
+                if (question.includes('యూరియా') || question.includes('urea')) {
+                    return kb['urea'];
+                }
+                if (question.includes('organic') || question.includes('సేంద్రియ') || question.includes('जैविक')) {
+                    return kb['organic'];
+                }
+                return kb['fertilizer'];
+            }
+            else if (question.includes('కోత') || question.includes('harvest') || question.includes('कटाई')) {
+                return kb['harvest'];
+            }
+            else if (question.includes('వాతావరణం') || question.includes('weather') || question.includes('मौसम')) {
+                if (question.includes('వర్షం') || question.includes('rain') || question.includes('बारिश')) {
+                    return kb['rain'];
+                }
+                return kb['weather'];
+            }
+            else if (question.includes('చీడ') || question.includes('pest') || question.includes('कीट')) {
+                if (question.includes('insect') || question.includes('కీటక') || question.includes('कीट')) {
+                    return kb['insect'];
+                }
+                return kb['pest'];
+            }
+            else if (question.includes('నీరు') || question.includes('water') || question.includes('पानी')) {
+                return kb['water'];
+            }
+            else if (question.includes('నేల') || question.includes('soil') || question.includes('मिट्टी')) {
+                return kb['soil'];
+            }
+            else if (question.includes('విత్తనం') || question.includes('seed') || question.includes('बीज')) {
+                return kb['seed'];
+            }
+            else if (question.includes('ధర') || question.includes('price') || question.includes('मूल्य') || question.includes('rate')) {
+                return kb['price'];
+            }
+            else if (question.includes('రోగ') || question.includes('disease') || question.includes('व्याधि')) {
+                return kb['disease'];
+            }
+            
+            // Default response for any other question
+            const defaultResponses = {
+                'te': '🌾 మీ ప్రశ్నకు సమాధానం: "' + question + '" గురించి సమాచారం కావాలా? దయచేసి మరింత స్పష్టంగా అడగండి. నేను వ్యాధులు, ఎరువులు, కోత సమయం, వాతావరణం, చీడపీడలు, నీరు, నేల, విత్తనాలు, ధరల గురించి సమాచారం ఇవ్వగలను.',
+                
+                'en': '🌾 Regarding your question about "' + question + '": I can help with information about diseases, fertilizers, harvest time, weather, pests, water management, soil, seeds, and market prices. Please be more specific.',
+                
+                'hi': '🌾 आपके प्रश्न "' + question + '" के बारे में: मैं रोगों, उर्वरकों, कटाई समय, मौसम, कीट, पानी प्रबंधन, मिट्टी, बीज और बाजार मूल्यों के बारे में जानकारी दे सकता हूं। कृपया और स्पष्ट रूप से पूछें।'
+            };
+            
+            return defaultResponses[lang];
+        }
+
+        // Text to Speech
+        function speakText(text, lang) {
+            stopAllAudio();
+            
+            if (!('speechSynthesis' in window)) {
+                console.log('Text-to-speech not supported');
+                return;
+            }
+            
+            const utterance = new SpeechSynthesisUtterance(text);
+            
+            const langMap = {
+                'te': 'te-IN',
+                'en': 'en-US',
+                'hi': 'hi-IN'
+            };
+            utterance.lang = langMap[lang];
+            
+            const availableVoices = speechSynthesis.getVoices();
+            
+            const matchingVoice = availableVoices.find(voice => 
+                voice.lang.includes(langMap[lang].split('-')[0])
+            );
+            
+            if (matchingVoice) {
+                utterance.voice = matchingVoice;
+            }
+            
+            // For Telugu, if no Telugu voice found, try to find any Indian voice
+            if (lang === 'te' && !matchingVoice) {
+                const indianVoice = availableVoices.find(voice => 
+                    voice.lang.includes('hi') || voice.lang.includes('en-IN')
+                );
+                if (indianVoice) {
+                    utterance.voice = indianVoice;
+                }
+            }
+            
+            utterance.rate = 0.9;
+            utterance.pitch = 1;
+            utterance.volume = 1;
+            
+            currentUtterance = utterance;
+            
+            utterance.onerror = function(event) {
+                console.error('Speech error:', event.error);
+                if (lang === 'te' && event.error === 'language-not-supported') {
+                    const fallbackUtterance = new SpeechSynthesisUtterance(text);
+                    fallbackUtterance.lang = 'en-US';
+                    speechSynthesis.speak(fallbackUtterance);
+                }
+            };
+            
+            speechSynthesis.speak(utterance);
+        }
+
+        // Stop all audio
+        function stopAllAudio() {
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+            }
+            currentUtterance = null;
+        }
+
+        // Add Message to Chat
+        function addMessage(sender, text) {
+            const chatContainer = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            
+            const bubbleDiv = document.createElement('div');
+            bubbleDiv.className = 'message-bubble';
+            bubbleDiv.textContent = text;
+            
+            const timeDiv = document.createElement('div');
+            timeDiv.className = 'message-time';
+            timeDiv.textContent = getCurrentTime();
+            
+            messageDiv.appendChild(bubbleDiv);
+            messageDiv.appendChild(timeDiv);
+            chatContainer.appendChild(messageDiv);
+            
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // Get Current Time
+        function getCurrentTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            
+            return `${hours}:${minutes} ${ampm}`;
+        }
+
+        // Clean up on page unload
+        window.addEventListener('beforeunload', function() {
+            stopAllAudio();
+        });
+    </script>
 </body>
 </html>
